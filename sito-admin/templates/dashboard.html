@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <nav>
+        <form method="post" class="post" action="/dashboard" enctype="multipart/form-data">
+            
+            <div class="form-titolo">
+                <label for="titolo">Titolo</label><br>
+                <input type="text" name="titolo" placeholder="Inserisci il titolo" value="{{ request.form['titolo'] }}" required><br>
+            </div>
+            
+            <div class="form-info">
+                <label for="info">Info</label><br>
+                <textarea name="info" placeholder="Inserisci le info" required>{{ request.form['info'] }}</textarea><br>
+            </div>
+            
+            <div>
+              <input type="file" name="file" />
+              <br /><br />
+              <input type="submit" />
+              <input type="reset" />
+            </div>
+            
+            <!-- <div class="form-send"><br>
+                <button type="submit">Crea post</button>
+            </div> -->
+            <div><br>
+              <a href="/logout">Logout</a>
+            </div>
+        </form>
+      </nav>
+
+    <!-- {% for post in posts %}
+    <h1>{{ post.titolo }}</h1>
+    <div class="acocrdion-item"><h1>{{ post.info }}</h1></div>
+    <h2>-----------------</h2>
+    <form action="{{post.id}}/delete" method="POST">
+    <button type="submit" class="btn">Elimina</button>
+    </form>
+    {% endfor %} -->
+  </body>
+  <style>
+    .post{
+      text-align: center;
+    }
+
+    .form-titolo{
+      margin-top: 50px;
+    }
+    
+    .form-info{
+      margin-top: 20px;
+    }
+
+    </style>
+</html>
