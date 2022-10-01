@@ -28,23 +28,29 @@
               <input type="reset" />
             </div>
             
-            <!-- <div class="form-send"><br>
-                <button type="submit">Crea post</button>
-            </div> -->
             <div><br>
               <a href="/logout">Logout</a>
             </div>
+            
+            <div style="display: flex;" class="row animate__animated animate__fadeIn" id="box">
+              {% for post in posts %}
+              <div class="card mt-5 m-lg-5" style="width: 18rem">
+                <a class="ricetta">
+                  <img src="../static/img/{{ post.filename }}" alt="torta" class="card-img-top" />
+                  <div class="card-body">
+                    <h5 class="card-title">{{ post.titolo }}</h5>
+                    <p class="card-text">{{ post.info }}.<br /></p>
+                    <form action="{{ post.id }}/delete" method="POST">
+                      <button type="submit" class="btn">Elimina</button>
+                    </form>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+             </div>
+             
         </form>
       </nav>
-
-    <!-- {% for post in posts %}
-    <h1>{{ post.titolo }}</h1>
-    <div class="acocrdion-item"><h1>{{ post.info }}</h1></div>
-    <h2>-----------------</h2>
-    <form action="{{post.id}}/delete" method="POST">
-    <button type="submit" class="btn">Elimina</button>
-    </form>
-    {% endfor %} -->
   </body>
   <style>
     .post{
