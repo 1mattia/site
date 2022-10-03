@@ -36,6 +36,7 @@ def home():
 def delete(idx):
     connection = sqlite3.connect('prova.db')
     connection.row_factory = sqlite3.Row
+    connection.execute('DELETE FROM user WHERE id = ?', (idx,))
     connection.execute('DELETE FROM posts WHERE id = ?', (idx,))
     connection.commit()
     connection.close()
@@ -108,19 +109,24 @@ def login():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    
+    connection = sqlite3.connect('prova.db')
+    connection.row_factory = sqlite3.Row
+    user = connection.execute('SELECT * FROM user').fetchall()
+    connection.commit()
+    
+    
     if request.method == 'POST':
         titolo = request.form['titolo']
         info = request.form['info']
         f = request.files['file']
         filename = secure_filename(f.filename)
         f.save(app.config['UPLOAD_FOLDER'] + filename)
-        connection = sqlite3.connect('prova.db')
-        connection.row_factory = sqlite3.Row
         connection.execute('INSERT INTO posts (titolo, info, filename) VALUES (?, ?, ?)', (titolo, info, filename))
         connection.commit()
         connection.close()
         return redirect('/dolci')
-    return render_template('dashboard.html')
+    return render_template('dashboard.html' , user = user)
 
 
 

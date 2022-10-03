@@ -42,6 +42,18 @@
             </div>
         </form>
       </nav>
+      
+      <div class="users">
+        <h1>Utenti Registrati</h1>
+        {% for user in user %}  
+        <h1>{{ user.id }} {{ user.username }}</h1>
+        
+        <form action="{{ user.id }}/delete" method="POST">
+          <button type="submit" class="btn">Elimina</button>
+        </form>
+        
+        {% endfor %}
+      </div>
   </body>
   <style>
     .post{
