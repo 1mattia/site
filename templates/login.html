@@ -4,31 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/login.css" />
     <title>Login</title>
   </head>
 
   <body>
-    <h1 class="h1">Login To Admin Command</h1>
-
-    <div class="form">
-      <form method="POST" action="">
-        <div>{{ form.hidden_tag() }}</div>
-        <br />
-        <div class="username">{{ form.username }}</div>
-        <br />
-        <div class="psw">{{ form.password }}</div>
-        <br />
-        <div class="submit">{{ form.submit }}</div>
-      </form>
+    <div class="card">
+      <h1 class="h1">Login To Admin Dashboard</h1>
+      <div class="form">
+        <form method="POST" action="">
+          <div>{{ form.hidden_tag() }}</div>
+          <br />
+          <div class="username">{{ form.username }}</div>
+          <br />
+          <div class="psw">{{ form.password }}</div>
+          <br />
+          <div class="submit">{{ form.submit }}</div>
+        </form>
+      </div>
     </div>
   </body>
-  <style>
-    .h1 {
-      text-align: center;
-    }
-
-    .form {
-      text-align: center;
-    }
-  </style>
 </html>

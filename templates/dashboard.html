@@ -4,13 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/dashboard.css">
     <title>Document</title>
   </head>
   <body>
     <div>
+          <div class="logout">
+            <a href="/logout" class="logout">Logout</a>
+          </div>
+      
       <nav>
         <form method="post" class="post" action="/dashboard" enctype="multipart/form-data">
-            
+          
+          {% for prova in posts %}
+            <div>
+              <h1>Loggato come: <h1>{{ post.id }}</h1></h1>
+            </div>
+          {% endfor %}
+          
             <div class="form-titolo">
                 <label for="titolo">Titolo</label><br>
                 <input type="text" name="titolo" placeholder="Inserisci il titolo" value="{{ request.form['titolo'] }}" required><br>
@@ -22,33 +33,13 @@
             </div>
             
             <div>
-              <input type="file" name="file" />
+              <input type="file" name="file" class="file" />
               <br /><br />
-              <input type="submit" />
-              <input type="reset" />
+              <div class="invia"> 
+                <input type="submit" />
+                <input type="reset" />
+              </div> 
             </div>
-            
-            <div><br>
-              <a href="/logout">Logout</a>
-            </div>
-            
-            <div style="display: flex;" class="row animate__animated animate__fadeIn" id="box">
-              {% for post in posts %}
-              <div class="card mt-5 m-lg-5" style="width: 18rem">
-                <a class="ricetta">
-                  <img src="../static/img/{{ post.filename }}" alt="torta" class="card-img-top" />
-                  <div class="card-body">
-                    <h5 class="card-title">{{ post.titolo }}</h5>
-                    <p class="card-text">{{ post.info }}.<br /></p>
-                    <form action="{{ post.id }}/delete" method="POST">
-                      <button type="submit" class="btn">Elimina</button>
-                    </form>
-                  </div>
-                </a>
-              </div>
-              {% endfor %}
-             </div>
-             
         </form>
       </nav>
   </body>

@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:ital@1&family=DM+Sans:wght@700&family=Roboto+Mono:ital,wght@0,300;1,300&display=swap');
+
+:root{
+    --background: #F3F1C7;
+    --text: black;
+}
+
+body{
+    background-color: var(--background);
+    font-family: "Work Sans", sans-serif;
+}
+
+.logout{
+    padding: 20px;
+    text-align: end;
+}
+
+.file{
+    margin-top: 15px;
+}
+
+.invia{
+    margin-top: 15px;
+}
+
+.post{
+    margin-top: 120px;
+}
+
+label{
+    font-size: 16px;
+}

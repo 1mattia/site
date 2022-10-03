@@ -113,8 +113,8 @@ def dashboard():
         info = request.form['info']
         f = request.files['file']
         filename = secure_filename(f.filename)
-        connection = sqlite3.connect('prova.db')
         f.save(app.config['UPLOAD_FOLDER'] + filename)
+        connection = sqlite3.connect('prova.db')
         connection.row_factory = sqlite3.Row
         connection.execute('INSERT INTO posts (titolo, info, filename) VALUES (?, ?, ?)', (titolo, info, filename))
         connection.commit()
