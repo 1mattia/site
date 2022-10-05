@@ -16,7 +16,7 @@ body{
 }
 
 .file{
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .invia{
@@ -29,4 +29,19 @@ body{
 
 label{
     font-size: 16px;
+}
+
+/* form */
+
+.name-log{
+    margin-top: -120px;
+}
+
+.utenti-reg , .posts-post{
+    text-align: center;
+    margin-top: 70px;
+}
+
+.form{
+    margin-left: 50px;
 }

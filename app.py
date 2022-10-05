@@ -12,6 +12,7 @@ import sqlite3
 from werkzeug.utils import secure_filename
 
 
+
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "static/img/"
 db = SQLAlchemy(app)
@@ -40,7 +41,13 @@ def delete(idx):
     connection.execute('DELETE FROM posts WHERE id = ?', (idx,))
     connection.commit()
     connection.close()
-    return redirect('/dolci')
+    return redirect('/dashboard')
+
+@app.route('/<int:idx>/update', methods=('POST', 'GET'))
+@login_required
+def update(idx):
+    
+    return render_template('/dashboard' , update = update)
 
 @app.route('/dolci')
 def dolci():
@@ -113,6 +120,7 @@ def dashboard():
     connection = sqlite3.connect('prova.db')
     connection.row_factory = sqlite3.Row
     user = connection.execute('SELECT * FROM user').fetchall()
+    posts = connection.execute('SELECT * FROM posts').fetchall()
     connection.commit()
     
     
@@ -125,8 +133,8 @@ def dashboard():
         connection.execute('INSERT INTO posts (titolo, info, filename) VALUES (?, ?, ?)', (titolo, info, filename))
         connection.commit()
         connection.close()
-        return redirect('/dolci')
-    return render_template('dashboard.html' , user = user)
+        return redirect('/dashboard')
+    return render_template('dashboard.html', posts = posts , user = user)
 
 
 

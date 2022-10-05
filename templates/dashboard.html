@@ -8,17 +8,17 @@
     <title>Document</title>
   </head>
   <body>
-    <div>
-          <div class="logout">
-            <a href="/logout" class="logout">Logout</a>
-          </div>
+    
+          <div class="prova">
+            <div class="logout">
+              <a href="/logout" class="logout">Logout</a>
+            </div>
       
-      <nav>
         <form method="post" class="post" action="/dashboard" enctype="multipart/form-data">
           
-          {% for prova in posts %}
-            <div>
-              <h1>Loggato come: <h1>{{ post.id }}</h1></h1>
+          {% for user in user %}
+            <div class="name-log">
+              <h1>Loggato come: <h1>{{ user.username }}</h1></h1>
             </div>
           {% endfor %}
           
@@ -44,16 +44,38 @@
       </nav>
       
       <div class="users">
-        <h1>Utenti Registrati</h1>
-        {% for user in user %}  
-        <h1>{{ user.id }} {{ user.username }}</h1>
+        <h1 class="utenti-reg">Utenti Registrati:</h1>
+        <div class="form">
+          {% for user in user %}  
+          <h1>id: {{ user.id }} <br> user: {{ user.username }}</h1>
         
-        <form action="{{ user.id }}/delete" method="POST">
-          <button type="submit" class="btn">Elimina</button>
-        </form>
-        
-        {% endfor %}
+       
+          <form action="{{ user.id }}/delete" method="POST">
+            <button type="submit" class="btn">Elimina</button>
+          </form>
+          {% endfor %}
       </div>
+      </div>
+
+      <div class="posts">
+        <h1 class="posts-post">Posts:</h1>
+        <div class="form">
+          {% for post in posts %} 
+            
+            <h1>Title: {{ post.titolo }}</h1>
+
+            <form action="{{ post.id }}/delete" method="POST">
+              <button type= "submit" class="btn">Elimina</button>
+            </form>
+            
+            <form action="{{ post.id }}/update" method="POST">
+              <button type="modifica" class="btn">Modifica</button>
+            </form>
+
+          {% endfor %}
+        </div>
+      </div>
+
   </body>
   <style>
     .post{
