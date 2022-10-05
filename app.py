@@ -8,8 +8,6 @@ from flask_bcrypt import Bcrypt
 import sqlite3
 from werkzeug.utils import secure_filename
 
-
-
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "static/img/"
 db = SQLAlchemy(app)
