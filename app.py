@@ -1,5 +1,4 @@
 from email.mime import image
-from importlib.resources import contents
 from tkinter import Image
 from flask import Flask, render_template, url_for, redirect , request
 from flask_sqlalchemy import SQLAlchemy
