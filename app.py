@@ -1,5 +1,3 @@
-from email.mime import image
-from tkinter import Image
 from flask import Flask, render_template, url_for, redirect , request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
