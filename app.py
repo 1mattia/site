@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 
 
-# @app.route('/')
+@app.route('/')
 def index():
 
     return render_template('index.html')
