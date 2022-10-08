@@ -38,11 +38,11 @@ def delete(idx):
     connection.close()
     return redirect('/dashboard')
 
-@app.route('/<int:idx>/update', methods=('POST', 'GET'))
-@login_required
-def update(idx):
+# @app.route('/<int:idx>/update', methods=('POST', 'GET'))
+# @login_required
+# def update(idx):
     
-    return render_template('/dashboard' , update = update)
+#     return render_template('/dashboard' , update = update)
 
 @app.route('/dolci')
 def dolci():
