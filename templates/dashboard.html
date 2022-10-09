@@ -68,10 +68,9 @@
               <button type= "submit" class="btn">Elimina</button>
             </form>
             
-            <form action="{{ post.id }}/update" method="POST">
+            <form action="{{ post.id }}/update" method="GET - POST">
               <button type="modifica" class="btn">Modifica</button>
             </form>
-
           {% endfor %}
         </div>
       </div>

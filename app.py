@@ -1,6 +1,7 @@
+from multiprocessing import connection
 from flask import Flask, render_template, url_for, redirect , request
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -38,11 +39,7 @@ def delete(idx):
     connection.close()
     return redirect('/dashboard')
 
-# @app.route('/<int:idx>/update', methods=('POST', 'GET'))
-# @login_required
-# def update(idx):
-    
-#     return render_template('/dashboard' , update = update)
+
 
 @app.route('/dolci')
 def dolci():
