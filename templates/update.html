@@ -12,6 +12,9 @@
 {% for post in posts %} 
     <form method="post" class="card" action="/update/{{ post.id }}" enctype="multipart/form-data">
             <h1>Modifica</h1>
+            <div>
+                <a href="/back">back</a>
+            </div>
             <div class="form-titolo">
                 <label for="titolo">Titolo</label><br>
                 <input type="text" name="titolo" value="{{ post.titolo }}" required><br>
@@ -27,7 +30,6 @@
                 <br /><br />
                 <div class="invia"> 
                     <input type="submit" />
-                    <input type="reset" />
                 </div> 
             </div>
     </form>

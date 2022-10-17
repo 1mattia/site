@@ -157,6 +157,10 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/back')
+def back():
+    
+    return redirect('/dashboard')
 
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
