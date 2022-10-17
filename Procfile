@@ -1,1 +1,0 @@
-web: ginicorn app:app

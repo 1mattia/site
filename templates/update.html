@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update post</title>
+</head>
+<body>
+
+
+{% for post in posts %} 
+    <form method="post" class="card" action="/update/{{ post.id }}" enctype="multipart/form-data">
+            <h1>Modifica</h1>
+            <div class="form-titolo">
+                <label for="titolo">Titolo</label><br>
+                <input type="text" name="titolo" value="{{ post.titolo }}" required><br>
+            </div>
+        
+            <div class="form-info">
+                <label for="info">Info</label><br>
+                <textarea name="info" placeholder="Inserisci le info" required>{{ post.info }}</textarea><br>
+            </div>
+        
+            <div>
+                <input type="file" name="file" class="file" value="{{ post.filename }}"/>
+                <br /><br />
+                <div class="invia"> 
+                    <input type="submit" />
+                    <input type="reset" />
+                </div> 
+            </div>
+    </form>
+{% endfor %}
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Arvo:ital@1&family=DM+Sans:wght@700&family=Roboto+Mono:ital,wght@0,300;1,300&display=swap');
+
+        :root {
+            --background: #F3F1C7;
+        }
+
+        body {
+            background-color: var(--background);
+        }
+
+        .card {
+            font-family: "Work Sans", sans-serif;
+            margin-top: 50px;
+            text-align: center;
+        }
+    </style>
+</body>
+</html>

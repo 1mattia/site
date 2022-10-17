@@ -1,4 +1,5 @@
-from multiprocessing import connection
+# from multiprocessing import connection
+# from pdb import post_mortem
 from flask import Flask, render_template, url_for, redirect , request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
@@ -15,7 +16,6 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prova.db'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
-
 
 
 @app.route('/')
@@ -128,6 +128,27 @@ def dashboard():
         return redirect('/dashboard')
     return render_template('dashboard.html', posts = posts , user = user)
 
+@app.route('/update/<int:id>/', methods=['GET', 'POST'])
+@login_required
+def update(id):
+    connection = sqlite3.connect('prova.db')
+    connection.row_factory = sqlite3.Row
+    posts = connection.execute('SELECT * FROM posts' ).fetchall()
+
+    connection.commit()
+
+    if request.method == 'POST':
+        titolo = request.form['titolo']
+        info = request.form['info']
+        f = request.files['file']
+        filename = secure_filename(f.filename)
+        f.save(app.config['UPLOAD_FOLDER'] + filename)
+        connection.execute('UPDATE posts SET titolo=(?) , info=(?) , filename=(?) WHERE id=(id)',[titolo,info,filename])
+        connection.commit()
+        connection.close()
+        return redirect('/dashboard')
+
+    return render_template('update.html' , posts = posts)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -150,7 +171,6 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
-
 
 
 if __name__ == '__main__':
