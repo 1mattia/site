@@ -6,36 +6,40 @@
   --text: #000000;
 }
 
-img{
-    margin-top: 10px;
-    border-radius: 5px;
+img {
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
-@media only screen and (max-width: 1000px){
-    #box{
-        margin-left: 60px;
-    }
+@media only screen and (max-width: 1000px) {
+  #box {
+    margin-left: 60px;
+  }
 
-    .row{
-      justify-content: center;
-    }
+  .row {
+    justify-content: center;
+  }
 }
 
-@media only screen and (max-width: 926px){
-    .row{
-        justify-content: center !important;
-    }
+@media only screen and (max-width: 926px) {
+  .row {
+    justify-content: center !important;
+  }
 }
 
-@media only screen and (max-width: 750px){
-    .row{
-      padding-right: 30px;
-    }
+@media only screen and (max-width: 750px) {
+  .row {
+    padding-right: 30px;
+  }
 }
 
-@media only screen and (max-width: 450px){
-  .row{
+@media only screen and (max-width: 450px) {
+  .row {
     margin-left: 15px !important;
+  }
+
+  .logo {
+    height: 45px;
   }
 }
 
@@ -79,7 +83,7 @@ header {
   left: -9999px !important;
 }
 
-.nav-toggle:focus ~ .nav-toggle-label {
+.nav-toggle:focus~.nav-toggle-label {
   outline: 3px solid rgba(lightblue, 0.75);
 }
 
@@ -155,11 +159,11 @@ nav a:hover {
   color: #000;
 }
 
-.nav-toggle:checked ~ nav {
+.nav-toggle:checked~nav {
   transform: scale(1, 1);
 }
 
-.nav-toggle:checked ~ nav a {
+.nav-toggle:checked~nav a {
   opacity: 1;
   transition: opacity 250ms ease-in-out 250ms;
 }
@@ -225,26 +229,26 @@ nav a:hover {
   }
 }
 
-.row{
-    animation-duration: 1.5s;
+.row {
+  animation-duration: 1.5s;
 }
 
-.card{
-    transition: transform .2s;
-    cursor: pointer;
+.card {
+  transition: transform .2s;
+  cursor: pointer;
 }
 
-.card:hover{
-    transform: scale(1.2);
+.card:hover {
+  transform: scale(1.2);
 }
 
-@media only screen and (max-width: 1530px){
-  .card{
+@media only screen and (max-width: 1530px) {
+  .card {
     margin-left: 16px !important;
   }
 }
 
-.ricetta{
+.ricetta {
   text-decoration: none;
   color: var(--text)
 }

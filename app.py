@@ -1,5 +1,3 @@
-# from multiprocessing import connection
-# from pdb import post_mortem
 from flask import Flask, render_template, url_for, redirect , request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
@@ -8,7 +6,13 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 import sqlite3
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
+
+
+from Controller.onMe import onMe
+from Controller.delete import delete
+
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "static/img/"
@@ -18,26 +22,28 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prova.db'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 
+app.register_blueprint(onMe)
+app.register_blueprint(delete)
+
+CORS(app)
+
+
 @app.route('/')
 def index():
 
     return render_template('index.html')
 
-@app.route('/on-me')
-def home():
 
-    return render_template('on-me.html')
-
-@app.route('/<int:idx>/delete', methods=('POST',))
-@login_required
-def delete(idx):
-    connection = sqlite3.connect('prova.db')
-    connection.row_factory = sqlite3.Row
-    connection.execute('DELETE FROM user WHERE id = ?', (idx,))
-    connection.execute('DELETE FROM posts WHERE id = ?', (idx,))
-    connection.commit()
-    connection.close()
-    return redirect('/dashboard')
+# @app.route('/<int:idx>/delete', methods=('POST',))
+# @login_required
+# def delete(idx):
+#     connection = sqlite3.connect('prova.db')
+#     connection.row_factory = sqlite3.Row
+#     connection.execute('DELETE FROM user WHERE id = ?', (idx,))
+#     connection.execute('DELETE FROM posts WHERE id = ?', (idx,))
+#     connection.commit()
+#     connection.close()
+#     return redirect('/dashboard')
 
 
 
@@ -105,16 +111,36 @@ def login():
 
 # dashboard admin
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route('/posts', methods=['GET', 'POST'])
 @login_required
-def dashboard():
-    
+def posts():
     connection = sqlite3.connect('prova.db')
     connection.row_factory = sqlite3.Row
     user = connection.execute('SELECT * FROM user').fetchall()
     posts = connection.execute('SELECT * FROM posts').fetchall()
     connection.commit()
-    
+
+    return render_template('/dashboard/posts.html' , user=user, posts=posts)
+
+@app.route('/users', methods=['GET', 'POST'])
+@login_required
+def users():
+    connection = sqlite3.connect('prova.db')
+    connection.row_factory = sqlite3.Row
+    user = connection.execute('SELECT * FROM user').fetchall()
+    posts = connection.execute('SELECT * FROM posts').fetchall()
+    connection.commit()
+
+    return render_template('/dashboard/users.html' , user=user, posts=posts)
+
+@app.route('/crea', methods=['GET', 'POST'])
+@login_required
+def crea():
+    connection = sqlite3.connect('prova.db')
+    connection.row_factory = sqlite3.Row
+    user = connection.execute('SELECT * FROM user').fetchall()
+    posts = connection.execute('SELECT * FROM posts').fetchall()
+    connection.commit()
     
     if request.method == 'POST':
         titolo = request.form['titolo']
@@ -126,6 +152,18 @@ def dashboard():
         connection.commit()
         connection.close()
         return redirect('/dashboard')
+    return render_template('/dashboard/crea.html' , user=user, posts=posts)
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    
+    connection = sqlite3.connect('prova.db')
+    connection.row_factory = sqlite3.Row
+    user = connection.execute('SELECT * FROM user').fetchall()
+    posts = connection.execute('SELECT * FROM posts').fetchall()
+    connection.commit()
+
     return render_template('dashboard.html', posts = posts , user = user)
 
 @app.route('/update/<int:id>/', methods=['GET', 'POST'])
@@ -155,9 +193,10 @@ def update(id):
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect('/')
 
 @app.route('/back')
+@login_required
 def back():
     
     return redirect('/dashboard')

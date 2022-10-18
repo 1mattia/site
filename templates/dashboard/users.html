@@ -23,12 +23,23 @@
       </ul>
     </nav>
       
-    <form method="post" class="post" action="/dashboard" enctype="multipart/form-data">
-        {% for user in user %}
-        <div>
-          <h1 class="user">Sei loggato come: <h1>{{ user.username}}</h1></h1>
-        </div>
-        {% endfor %}
-    </form>
+        <form method="post" class="post" action="/dashboard" enctype="multipart/form-data">
+        </form>
+      
+      
+      <div class="users">
+        <h1 class="utenti-reg">Utenti Registrati:</h1>
+        <div class="form">
+          {% for user in user %}  
+          <h1>id: {{ user.id }} <br> user: {{ user.username }}</h1>
+        
+      
+          <form action="{{ user.id }}/delete" method="POST">
+            <button type="submit" class="btn">Elimina</button>
+          </form>
+          {% endfor %}
+      </div>
+      </div>
+
   </body>
 </html>
