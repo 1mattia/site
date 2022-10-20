@@ -3,13 +3,13 @@ from flask import Flask , redirect
 from flask_login import login_required
 import sqlite3
 
-delete = Blueprint('delete', __name__)
+Delete = Blueprint('Delete', __name__)
 
 app = Flask(__name__)
 
 
 
-@delete.route('/<int:idx>/delete', methods=('POST',))
+@Delete.route('/<int:idx>/delete', methods=('POST',))
 @login_required
 def delete(idx):
     connection = sqlite3.connect('prova.db')

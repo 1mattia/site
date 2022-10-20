@@ -10,9 +10,9 @@
   <body>
     
     <nav class="navbar">
-      {% for user in user %}
-        <div class="logo">User: {{ user.username }}</div>
-      {% endfor %}
+      <!-- {% for user in user %} -->
+        <div class="logo"></div>
+      <!-- {% endfor %} -->
       <ul class="nav-links">
         <div class="menu">
           <li><a href="/crea">Crea</a></li>
@@ -31,7 +31,7 @@
         <h1 class="utenti-reg">Utenti Registrati:</h1>
         <div class="form">
           {% for user in user %}  
-          <h1>id: {{ user.id }} <br> user: {{ user.username }}</h1>
+          <h2>id: {{ user.id }} <br> user: {{ user.username }}</h2>
         
       
           <form action="{{ user.id }}/delete" method="POST">

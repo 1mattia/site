@@ -1,29 +1,49 @@
-from flask import Flask, render_template, url_for, redirect , request
+from flask import Flask, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
+from flask_login import UserMixin, LoginManager, login_required, logout_user
+from flask_bcrypt import Bcrypt
+from flask_cors import CORS
+from flask import Flask, render_template, url_for, redirect
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, LoginManager
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
-import sqlite3
-from flask_cors import CORS
-from werkzeug.utils import secure_filename
+from flask import Flask , render_template
 
+# import for blueprint
 
 from Controller.onMe import onMe
-from Controller.delete import delete
-
+from Controller.delete import Delete
+from Controller.dolci import Dolci
+from Controller.login import Login
+from Controller.dashboard.posts import Posts
+from Controller.dashboard.users import Users
+from Controller.dashboard.create import Create
+from Controller.dashboard.admin import Admin
+from Controller.dashboard.update import Update
+from Controller.dashboard.register import Register
 
 app = Flask(__name__)
-app.config["UPLOAD_FOLDER"] = "static/img/"
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///prova.db'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
+# blueprint
 
 app.register_blueprint(onMe)
-app.register_blueprint(delete)
+app.register_blueprint(Delete)
+app.register_blueprint(Dolci)
+app.register_blueprint(Login)
+app.register_blueprint(Posts)
+app.register_blueprint(Users)
+app.register_blueprint(Create)
+app.register_blueprint(Admin)
+app.register_blueprint(Update)
+# app.register_blueprint(Register)
+
 
 CORS(app)
 
@@ -33,29 +53,7 @@ def index():
 
     return render_template('index.html')
 
-
-# @app.route('/<int:idx>/delete', methods=('POST',))
-# @login_required
-# def delete(idx):
-#     connection = sqlite3.connect('prova.db')
-#     connection.row_factory = sqlite3.Row
-#     connection.execute('DELETE FROM user WHERE id = ?', (idx,))
-#     connection.execute('DELETE FROM posts WHERE id = ?', (idx,))
-#     connection.commit()
-#     connection.close()
-#     return redirect('/dashboard')
-
-
-
-@app.route('/dolci')
-def dolci():
-    connection = sqlite3.connect('prova.db')
-    connection.row_factory = sqlite3.Row
-    posts = connection.execute('SELECT * FROM posts').fetchall()
-    connection.close()
-    return render_template('dolci.html', posts=posts)
-
-# login 
+# LOGIN 
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -74,10 +72,10 @@ class User(db.Model, UserMixin):
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+                        InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
 
     password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+                        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField('Register')
 
@@ -91,109 +89,23 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+                        InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
 
     password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+                        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField('Login')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('dashboard'))
-    return render_template('login.html', form=form)
 
-# dashboard admin
-
-@app.route('/posts', methods=['GET', 'POST'])
-@login_required
-def posts():
-    connection = sqlite3.connect('prova.db')
-    connection.row_factory = sqlite3.Row
-    user = connection.execute('SELECT * FROM user').fetchall()
-    posts = connection.execute('SELECT * FROM posts').fetchall()
-    connection.commit()
-
-    return render_template('/dashboard/posts.html' , user=user, posts=posts)
-
-@app.route('/users', methods=['GET', 'POST'])
-@login_required
-def users():
-    connection = sqlite3.connect('prova.db')
-    connection.row_factory = sqlite3.Row
-    user = connection.execute('SELECT * FROM user').fetchall()
-    posts = connection.execute('SELECT * FROM posts').fetchall()
-    connection.commit()
-
-    return render_template('/dashboard/users.html' , user=user, posts=posts)
-
-@app.route('/crea', methods=['GET', 'POST'])
-@login_required
-def crea():
-    connection = sqlite3.connect('prova.db')
-    connection.row_factory = sqlite3.Row
-    user = connection.execute('SELECT * FROM user').fetchall()
-    posts = connection.execute('SELECT * FROM posts').fetchall()
-    connection.commit()
-    
-    if request.method == 'POST':
-        titolo = request.form['titolo']
-        info = request.form['info']
-        f = request.files['file']
-        filename = secure_filename(f.filename)
-        f.save(app.config['UPLOAD_FOLDER'] + filename)
-        connection.execute('INSERT INTO posts (titolo, info, filename) VALUES (?, ?, ?)', (titolo, info, filename))
-        connection.commit()
-        connection.close()
-        return redirect('/dashboard')
-    return render_template('/dashboard/crea.html' , user=user, posts=posts)
-
-@app.route('/dashboard', methods=['GET', 'POST'])
-@login_required
-def dashboard():
-    
-    connection = sqlite3.connect('prova.db')
-    connection.row_factory = sqlite3.Row
-    user = connection.execute('SELECT * FROM user').fetchall()
-    posts = connection.execute('SELECT * FROM posts').fetchall()
-    connection.commit()
-
-    return render_template('dashboard.html', posts = posts , user = user)
-
-@app.route('/update/<int:id>/', methods=['GET', 'POST'])
-@login_required
-def update(id):
-    connection = sqlite3.connect('prova.db')
-    connection.row_factory = sqlite3.Row
-    posts = connection.execute('SELECT * FROM posts' ).fetchall()
-
-    connection.commit()
-
-    if request.method == 'POST':
-        titolo = request.form['titolo']
-        info = request.form['info']
-        f = request.files['file']
-        filename = secure_filename(f.filename)
-        f.save(app.config['UPLOAD_FOLDER'] + filename)
-        connection.execute('UPDATE posts SET titolo=(?) , info=(?) , filename=(?) WHERE id=(id)',[titolo,info,filename])
-        connection.commit()
-        connection.close()
-        return redirect('/dashboard')
-
-    return render_template('update.html' , posts = posts)
-
+# logout
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
     return redirect('/')
+
+# back
 
 @app.route('/back')
 @login_required
@@ -211,7 +123,7 @@ def register():
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('login'))
+        return redirect('/login')
 
     return render_template('register.html', form=form)
 
