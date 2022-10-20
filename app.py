@@ -1,16 +1,12 @@
-from flask import Flask, render_template, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_required, logout_user
-from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-from flask import Flask, render_template, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager
+from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask , render_template
+from flask import Flask, render_template, redirect
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
-from flask_bcrypt import Bcrypt
-from flask import Flask , render_template
+from flask_login import UserMixin, LoginManager, login_required, logout_user
 
 # import for blueprint
 
@@ -42,7 +38,7 @@ app.register_blueprint(Users)
 app.register_blueprint(Create)
 app.register_blueprint(Admin)
 app.register_blueprint(Update)
-# app.register_blueprint(Register)
+app.register_blueprint(Register)
 
 
 CORS(app)
