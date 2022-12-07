@@ -6,7 +6,7 @@ from flask import Flask , render_template
 from flask import Flask, render_template, redirect
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
-from flask_login import UserMixin, LoginManager, login_required, logout_user
+from flask_login import UserMixin, LoginManager, login_required, logout_user, login_user
 
 # import for blueprint
 
@@ -92,6 +92,16 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField('Login')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect('/dashboard')
+    return render_template('login.html', form=form)
 
 # logout
 
@@ -125,4 +135,4 @@ def register():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug = False)
+    app.run(host="0.0.0.0", port=5000, debug = True)

@@ -13,7 +13,7 @@ app = Flask(__name__)
 def update(id):
     connection = sqlite3.connect('prova.db')
     connection.row_factory = sqlite3.Row
-    posts = connection.execute('SELECT * FROM posts' ).fetchall()
+    posts = connection.execute('SELECT * FROM posts').fetchall()
 
     connection.commit()
 
