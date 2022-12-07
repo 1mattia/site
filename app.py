@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
@@ -7,19 +8,30 @@ from flask import Flask, render_template, redirect
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_login import UserMixin, LoginManager, login_required, logout_user, login_user
+=======
+from flask_login import UserMixin, LoginManager, login_required, logout_user
+from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms import StringField, PasswordField, SubmitField
+from flask import Flask, render_template, redirect
+from flask import Flask , render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from flask_bcrypt import Bcrypt
+from flask_cors import CORS
+>>>>>>> c906b8339d58b067e2b7764886dad586d7515a8f
 
 # import for blueprint
 
-from Controller.onMe import onMe
+from Controller.dashboard.register import Register
+from Controller.dashboard.update import Update
+from Controller.dashboard.create import Create
+from Controller.dashboard.admin import Admin
+from Controller.dashboard.users import Users
+from Controller.dashboard.posts import Posts
 from Controller.delete import Delete
 from Controller.dolci import Dolci
 from Controller.login import Login
-from Controller.dashboard.posts import Posts
-from Controller.dashboard.users import Users
-from Controller.dashboard.create import Create
-from Controller.dashboard.admin import Admin
-from Controller.dashboard.update import Update
-from Controller.dashboard.register import Register
+from Controller.onMe import onMe
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -29,16 +41,16 @@ app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 # blueprint
 
-app.register_blueprint(onMe)
+app.register_blueprint(Register)
+app.register_blueprint(Update)
 app.register_blueprint(Delete)
+app.register_blueprint(Create)
 app.register_blueprint(Dolci)
 app.register_blueprint(Login)
 app.register_blueprint(Posts)
 app.register_blueprint(Users)
-app.register_blueprint(Create)
 app.register_blueprint(Admin)
-app.register_blueprint(Update)
-app.register_blueprint(Register)
+app.register_blueprint(onMe)
 
 
 CORS(app)
